@@ -141,7 +141,7 @@ public:
                     cartaplayer = jugadores[i]->cartas[j];
                     if (cartaplayer[0] == '1' && cartaplayer[1] == '0'){
                         numeros = cartaplayer.substr(0, 2);
-                        num = atoi(numeros);
+                        num = stoi(numeros);
                         puntuacion += num;
                     } else {
                         numeros = cartaplayer.substr(0, 1);
@@ -158,7 +158,7 @@ public:
                             num = 13;
                             puntuacion += num;
                         } else {
-                            num = atoi(numeros);
+                            num = stoi(numeros);
                             puntuacion += num;
                         } // Fin If            
                     } // Fin If                  
@@ -171,7 +171,7 @@ public:
                     cartaplayer = jugadores[i]->cartas[j];
                     if (cartaplayer[0] == '1' && cartaplayer[1] == '0'){
                         numeros = cartaplayer.substr(0, 2);
-                        num = atoi(numeros);
+                        num = stoi(numeros);
                         puntuacion += num;
                     } else {
                         numeros = cartaplayer.substr(0, 1);
@@ -188,50 +188,68 @@ public:
                             num = 13;
                             puntuacion += num;
                         } else {
-                            num = atoi(numeros);
+                            num = stoi(numeros);
                             puntuacion += num;
                         } // Fin If            
                     } // Fin If                  
                 } // Fin For
                 if (puntuacion < 21){
-                    jugadores[i]->cartas.push_back(baraja.back());
-                    baraja.pop_back();
-                    contb++;
-                    cartaplayer = jugadores[i]->cartas[contb];
-                    if (cartaplayer[0] == '1' && cartaplayer[1] == '0'){
-                        numeros = cartaplayer.substr(0, 2);
-                        num = atoi(numeros);
-                        puntuacion += num;
-                    } else {
-                        numeros = cartaplayer.substr(0, 1);
-                        if (numeros == "A"){
-                            num = 1;
-                            puntuacion += num;
-                        } else if (numeros == "J"){
-                            num = 11;
-                            puntuacion += num;                            
-                        } else if (numeros == "Q"){
-                            num = 12;
-                            puntuacion += num;                            
-                        } else if (numeros == "K"){
-                            num = 13;
+                    bool vive = true;
+                    while (vive == true){
+                        jugadores[i]->cartas.push_back(baraja.back());
+                        baraja.pop_back();
+                        contb++;
+                        cartaplayer = jugadores[i]->cartas[contb];
+                        if (cartaplayer[0] == '1' && cartaplayer[1] == '0'){
+                            numeros = cartaplayer.substr(0, 2);
+                            num = stoi(numeros);
                             puntuacion += num;
                         } else {
-                            num = atoi(numeros);
-                            puntuacion += num;
-                        } // Fin If            
-                    } // Fin If
-                    int rand;
-                    rand = rand() % 100;
-                    if (rand < 50 && rand > 45){
-                        /* code */
-                    }                                                                                                
+                            numeros = cartaplayer.substr(0, 1);
+                            if (numeros == "A"){
+                                num = 1;
+                                puntuacion += num;
+                            } else if (numeros == "J"){
+                                num = 11;
+                                puntuacion += num;                            
+                            } else if (numeros == "Q"){
+                                num = 12;
+                                puntuacion += num;                            
+                            } else if (numeros == "K"){
+                                num = 13;
+                                puntuacion += num;
+                            } else {
+                                num = stoi(numeros);
+                                puntuacion += num;
+                            } // Fin If            
+                        } // Fin If
+                        int rando;
+                        rando = rand() % 100;
+                        if (rando < 50 && rando > 45){
+                            vive = true;
+                        } else {
+                            vive = false;
+                            jugadores[i]->puntacion = puntuacion;  
+                            puntuacion = 0;   
+                        } // Fin If
+                    } // Fin While Vive                                                                                              
                 } else {
                     jugadores[i]->puntacion = puntuacion;  
                     puntuacion = 0;   
                 } // Fin If                              
             } // Fin If                           
-        } // Fin For    
+        } // Fin For
+        // Se declaran los ganadores y perdedores
+        int cont = 1;
+        for (int i = 0; i < jugadoresi; i++){
+            if (jugadores[i]->puntacion > 31){
+                cout << "Perdedor: " << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion);
+            } else if (jugadores[i]->puntacion == 31){
+                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion);
+            } else{
+                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion);
+            } // Fin If                 
+        } // Fin For          
     } // Fin Jugar  
     ~Juego(){
     } // Fin Destructor Juego
