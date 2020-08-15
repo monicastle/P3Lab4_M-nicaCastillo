@@ -6,13 +6,19 @@
 #include "Jugador.hpp"
 using namespace std;
 class Juego{
-    vector<Jugador*> jugadores;
 public:
     Juego();
-    void setJugador(string nombre, int puntuacion){
-        jugadores.push_back(new Jugador(nombre, puntuacion));
-    } // Fin Set Jugador
-    void Jugar(int jugadoresi){
+    static void Jugar(int jugadoresi, string nombre){
+        vector<Jugador*> jugadores;
+        jugadores.push_back(new Jugador(nombre, 0));          
+        string name;
+        int conta = 1;
+        for (int i = 0; i < jugadoresi - 1; i++){
+            name = "bot-" + to_string(conta);
+            jugadores.push_back(new Jugador(name, 0));    
+            name = "";
+            conta++;
+        } // Fin For
         vector<string> baraja;
         string carta = "";
         // Creacion de la Baraja
@@ -110,10 +116,10 @@ public:
         } // Fin For Treboles 
         // Se Barajan las Cartas    
         int size = baraja.size();
-        for (int i = 0; i < 500; i++) {
-            int j = rand() % (size);
-            int k = rand() % (size);
-            swap(baraja[k], baraja[j]);
+        for (int i = 0; i < 600; i++) {
+            int j = rand() % size;
+            int k = rand() % size;
+            swap(baraja[j], baraja[k]);
         } // Fin For
         // Asignar las cartas a los jugadores
         for (int i = 0; i < jugadoresi; i++){
@@ -127,18 +133,22 @@ public:
         // Empieza el juego
         for (int i = 0; i < jugadoresi; i++){
             if (i == 0){
-                cout << jugadores[i]->nombre << ": [" << jugadores[i]->cartas[0] << "," << jugadores[i]->cartas[1] << "," << jugadores[i]->cartas[2] << "]" << endl;
+                cout << jugadores[0]->nombre << ": [" << jugadores[0]->cartas[0] << "," << jugadores[0]->cartas[1] << "," << jugadores[0]->cartas[2] << "]" << endl;
                 int decision;
                 cout << "Tomar otra carta? [1. Si | 2. No]: ";
                 cin >> decision;
+                int contm = 3;
                 while (decision == 1){
-                    jugadores[i]->cartas.push_back(baraja.back());
+                    jugadores[0]->cartas.push_back(baraja.back());
                     baraja.pop_back();
+                    cout << jugadores[0]->cartas[contm] << "" << endl;
                     cout << "Tomar otra carta? [1. Si | 2. No]: ";
-                    cin >> decision;  
+                    cin >> decision;
+                    contm++; 
                 } // Fin While
-                for (int j = 0; j < jugadores[i]->cartas.size(); j++){
-                    cartaplayer = jugadores[i]->cartas[j];
+                for (int j = 0; j < jugadores[0]->cartas.size(); j++){
+                    cartaplayer = jugadores[0]->cartas[j];
+                    num = 0;
                     if (cartaplayer[0] == '1' && cartaplayer[1] == '0'){
                         numeros = cartaplayer.substr(0, 2);
                         num = stoi(numeros);
@@ -163,12 +173,13 @@ public:
                         } // Fin If            
                     } // Fin If                  
                 } // Fin For
-                jugadores[i]->puntacion = puntuacion;  
+                jugadores[0]->puntacion = puntuacion;  
                 puntuacion = 0;                           
             } else {
-                int contb = 3;
+                int contb = 2;
                 for (int j = 0; j < 3; j++){
                     cartaplayer = jugadores[i]->cartas[j];
+                    num = 0;
                     if (cartaplayer[0] == '1' && cartaplayer[1] == '0'){
                         numeros = cartaplayer.substr(0, 2);
                         num = stoi(numeros);
@@ -191,11 +202,11 @@ public:
                             num = stoi(numeros);
                             puntuacion += num;
                         } // Fin If            
-                    } // Fin If                  
+                    } // Fin If                 
                 } // Fin For
                 if (puntuacion < 21){
                     bool vive = true;
-                    while (vive == true){
+                    while (vive){
                         jugadores[i]->cartas.push_back(baraja.back());
                         baraja.pop_back();
                         contb++;
@@ -243,11 +254,11 @@ public:
         int cont = 1;
         for (int i = 0; i < jugadoresi; i++){
             if (jugadores[i]->puntacion > 31){
-                cout << "Perdedor: " << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion);
+                cout << "Perdedor: " << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
             } else if (jugadores[i]->puntacion == 31){
-                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion);
+                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
             } else{
-                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion);
+                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
             } // Fin If                 
         } // Fin For          
     } // Fin Jugar  

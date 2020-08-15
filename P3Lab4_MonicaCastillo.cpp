@@ -9,11 +9,12 @@ int main(){
         cout << "**CASINO MANRIQUE'S**" << endl;
         cout << "1. Jugar 31" << endl;
         cout << "2. Salida" << endl;
-        cout << "Ingrese una opcion: ";
         cout << "********************" << endl;
+        cout << "Ingrese una opcion: ";
         cin >> opcion;
         switch (opcion){
         case 1:{
+            
             int jugadores;
             cout << "Ingrese el numero de jugadores (2-10): ";
             cin >> jugadores;
@@ -25,20 +26,7 @@ int main(){
             string nombre;
             cout << "Ingrese su nombre: ";
             cin >> nombre;
-            Juego j;
-            j.setJugador(nombre, 0);
-            //Juego::setJugador(nombre, 0);           
-            string name;
-            int cont = 1;
-            for (int i = 0; i < jugadores - 1; i++){
-                name = "bot-" + cont;
-                j.setJugador(name, 0);
-                //Juego::setJugador(name, 0);
-                name = "";
-                cont++;
-            } // Fin For
-            //Juego::Jugar(jugadores); 
-            j.Jugar(jugadores);
+            Juego::Jugar(jugadores ,nombre); 
             break;}
         case 2:{
             // Aqui va la Salida
