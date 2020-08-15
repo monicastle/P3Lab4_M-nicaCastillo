@@ -3,6 +3,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <algorithm>
 #include "Jugador.hpp"
 using namespace std;
 class Juego{
@@ -114,9 +115,11 @@ public:
                 carta = "";                
             } // Fin If
         } // Fin For Treboles 
-        // Se Barajan las Cartas    
+        // Se Barajan las Cartas  
+        random_shuffle(baraja.begin(), baraja.end()); 
         int size = baraja.size();
-        for (int i = 0; i < 600; i++) {
+        int numran = (rand() % 5000) + 200;
+        for (int i = 0; i < numran; i++) {
             int j = rand() % size;
             int k = rand() % size;
             swap(baraja[j], baraja[k]);
@@ -205,8 +208,9 @@ public:
                     } // Fin If                 
                 } // Fin For
                 if (puntuacion < 21){
-                    bool vive = true;
-                    while (vive){
+                    int conth = 0;
+                    int valid = 2;
+                    while (conth < valid){
                         jugadores[i]->cartas.push_back(baraja.back());
                         baraja.pop_back();
                         contb++;
@@ -234,16 +238,15 @@ public:
                                 puntuacion += num;
                             } // Fin If            
                         } // Fin If
+                        conth++;
                         int rando;
                         rando = rand() % 100;
                         if (rando < 50 && rando > 45){
-                            vive = true;
-                        } else {
-                            vive = false;
-                            jugadores[i]->puntacion = puntuacion;  
-                            puntuacion = 0;   
+                            valid++;
                         } // Fin If
-                    } // Fin While Vive                                                                                              
+                    } // Fin While Vive
+                    jugadores[i]->puntacion = puntuacion; 
+                    puntuacion = 0;                                                                                             
                 } else {
                     jugadores[i]->puntacion = puntuacion;  
                     puntuacion = 0;   
@@ -255,12 +258,14 @@ public:
         for (int i = 0; i < jugadoresi; i++){
             if (jugadores[i]->puntacion > 31){
                 cout << "Perdedor: " << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
-            } else if (jugadores[i]->puntacion == 31){
-                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
-            } else{
-                cout << to_string(cont) << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
-            } // Fin If                 
-        } // Fin For          
+            } // Fin If
+        } // Fin For
+        for (int i = 0; i < jugadoresi; i++){
+            if (jugadores[i]->puntacion <= 31){
+                cout << to_string(cont) << ". " << jugadores[i]->nombre << " puntos: " << to_string(jugadores[i]->puntacion) << endl;
+                cont++;
+            } // Fin If       
+        } // Fin For               
     } // Fin Jugar  
     ~Juego(){
     } // Fin Destructor Juego

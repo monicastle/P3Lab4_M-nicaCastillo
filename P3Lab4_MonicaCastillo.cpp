@@ -13,8 +13,7 @@ int main(){
         cout << "Ingrese una opcion: ";
         cin >> opcion;
         switch (opcion){
-        case 1:{
-            
+        case 1:{           
             int jugadores;
             cout << "Ingrese el numero de jugadores (2-10): ";
             cin >> jugadores;
